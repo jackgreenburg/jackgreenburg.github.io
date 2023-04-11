@@ -131,6 +131,9 @@ background-image: url(../../img/landscape.png);
 background-size: cover;
     }
     </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -253,7 +256,7 @@ background-size: cover;
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_train, y_train, X_val, y_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_train <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_val <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">1</span></span>
@@ -275,8 +278,8 @@ background-size: cover;
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>labs <span class="op">=</span> axarr[<span class="dv">0</span>].<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"Training"</span>, xlabel <span class="op">=</span> <span class="st">"x"</span>, ylabel <span class="op">=</span> <span class="st">"y"</span>)</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>labs <span class="op">=</span> axarr[<span class="dv">1</span>].<span class="bu">set</span>(title <span class="op">=</span> <span class="st">"Validation"</span>, xlabel <span class="op">=</span> <span class="st">"x"</span>)</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>draw_line(LR_analytical.w, <span class="dv">0</span>, <span class="dv">1</span>, color<span class="op">=</span><span class="st">"blue"</span>,  ax<span class="op">=</span>axarr[<span class="dv">0</span>], label<span class="op">=</span><span class="st">"Analytical"</span>)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>draw_line(LR_gradient.w, <span class="dv">0</span>, <span class="dv">1</span>, color<span class="op">=</span><span class="st">"red"</span>, ax<span class="op">=</span>axarr[<span class="dv">0</span>], label<span class="op">=</span><span class="st">"Gradient"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>draw_line(LR_analytical.w, <span class="dv">0</span>, <span class="dv">1</span>, color<span class="op">=</span><span class="st">"blue"</span>,  ax<span class="op">=</span>axarr[<span class="dv">0</span>], label<span class="op">=</span><span class="st">"Analytical"</span>, lw<span class="op">=</span><span class="st">"2"</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>draw_line(LR_gradient.w, <span class="dv">0</span>, <span class="dv">1</span>, color<span class="op">=</span><span class="st">"red"</span>, ax<span class="op">=</span>axarr[<span class="dv">0</span>], label<span class="op">=</span><span class="st">"Gradient"</span>, linestyle<span class="op">=</span><span class="st">"dotted"</span>, lw<span class="op">=</span><span class="st">"4"</span>)</span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].legend()</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># plot score</span></span>
@@ -296,12 +299,12 @@ background-size: cover;
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Analytical method:
-Training score = 0.128
-Validation score = 0.1202
+Training score = 0.6929
+Validation score = 0.6476
 
 Gradient method:
-Training score = 0.128
-Validation score = 0.1202</code></pre>
+Training score = 0.6929
+Validation score = 0.6476</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
@@ -342,7 +345,7 @@ Validation score = 0.1202</code></pre>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>scores_df <span class="op">=</span> pd.DataFrame(scores)</span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>scores_df.index <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="bu">len</span>(scores_df) <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>scores_df.plot(ax<span class="op">=</span>ax0, xlabel<span class="op">=</span><span class="st">"Number of features"</span>, ylabel<span class="op">=</span><span class="st">"Score"</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>ax0.set_ylim([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>ax0.set_ylim([<span class="dv">0</span>, <span class="fl">1.05</span>])</span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>scores_lasso_df <span class="op">=</span> pd.DataFrame(scores_lasso)</span>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>scores_lasso_df.index <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="bu">len</span>(scores_lasso_df) <span class="op">+</span> <span class="dv">1</span>)</span>
@@ -358,11 +361,11 @@ Validation score = 0.1202</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Scores with 100 training samples and 99 features:
 Training score = 1.0
-Validation score = -0.9381
+Validation score = -2269.1898
 
 Scores while using modified loss function with regularization term:
-Training score = 0.9977
-Validation score = 0.8606</code></pre>
+Training score = 0.9973
+Validation score = 0.8407</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
@@ -374,7 +377,7 @@ Validation score = 0.8606</code></pre>
 <section id="experiment-3-bike-share-data" class="level3">
 <h3 class="anchored" data-anchor-id="experiment-3-bike-share-data">Experiment 3: Bike Share Data</h3>
 <p>In this experiment we will train a model to predict the number of riders of a bikesharing program in DC.</p>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"https://philchodrow.github.io/PIC16A/datasets/Bike-Sharing-Dataset/day.csv"</span>)</span>
@@ -387,32 +390,35 @@ Validation score = 0.8606</code></pre>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"temp"</span>, </span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hum"</span>, </span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"windspeed"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"holiday"</span>]</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>bikeshare <span class="op">=</span> data[cols]</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>bikeshare <span class="op">=</span> pd.get_dummies(bikeshare, columns <span class="op">=</span> [<span class="st">'mnth'</span>], drop_first <span class="op">=</span> <span class="st">"if_binary"</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>train, test <span class="op">=</span> train_test_split(bikeshare, test_size <span class="op">=</span> <span class="fl">.2</span>, shuffle <span class="op">=</span> <span class="va">False</span>)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train.drop([<span class="st">"casual"</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[<span class="st">"casual"</span>]</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test.drop([<span class="st">"casual"</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test[<span class="st">"casual"</span>]</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LinearRegression()</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>LR.fit_analytical(X_train, y_train)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> LR.predict(bikeshare.drop([<span class="st">"casual"</span>], axis<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">7</span>, <span class="dv">3</span>))</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>ax.plot(pd.to_datetime(data[<span class="st">'dteday'</span>]), data[<span class="st">'casual'</span>], label<span class="op">=</span><span class="st">"Actual"</span>)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>ax.plot(pd.to_datetime(data[<span class="st">'dteday'</span>]), preds, label<span class="op">=</span><span class="st">"Predicted"</span>)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Day"</span>, ylabel <span class="op">=</span> <span class="st">"# of casual users"</span>)</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Training score = </span><span class="sc">{</span>LR<span class="sc">.</span>score(X_train, y_train)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Validation score = </span><span class="sc">{</span>LR<span class="sc">.</span>score(X_test, y_test)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"holiday"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"dteday"</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>bikeshare <span class="op">=</span> data[cols]</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>bikeshare <span class="op">=</span> pd.get_dummies(bikeshare, columns <span class="op">=</span> [<span class="st">'mnth'</span>], drop_first <span class="op">=</span> <span class="st">"if_binary"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>train, test <span class="op">=</span> train_test_split(bikeshare, test_size <span class="op">=</span> <span class="fl">.2</span>, shuffle <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train.drop([<span class="st">"casual"</span>, <span class="st">"dteday"</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[<span class="st">"casual"</span>]</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test.drop([<span class="st">"casual"</span>, <span class="st">"dteday"</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test[<span class="st">"casual"</span>]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LinearRegression()</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>LR.fit_analytical(X_train, y_train)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>preds_train <span class="op">=</span> LR.predict(X_train)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>preds_test <span class="op">=</span> LR.predict(X_test)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, figsize <span class="op">=</span> (<span class="dv">7</span>, <span class="dv">3</span>))</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>ax.plot(pd.to_datetime(data[<span class="st">'dteday'</span>]), data[<span class="st">'casual'</span>], label<span class="op">=</span><span class="st">"Actual"</span>)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>ax.plot(pd.to_datetime(train[<span class="st">'dteday'</span>]), preds_train, label<span class="op">=</span><span class="st">"Training Set Predictions"</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>ax.plot(pd.to_datetime(test[<span class="st">'dteday'</span>]), preds_test, label<span class="op">=</span><span class="st">"Test Set Predictions"</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Day"</span>, ylabel <span class="op">=</span> <span class="st">"# of casual users"</span>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Training score = </span><span class="sc">{</span>LR<span class="sc">.</span>score(X_train, y_train)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Validation score = </span><span class="sc">{</span>LR<span class="sc">.</span>score(X_test, y_test)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">4</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Training score = 0.7318
 Validation score = 0.6968</code></pre>
@@ -421,10 +427,278 @@ Validation score = 0.6968</code></pre>
 <p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>weathersit</th>
+      <th>workingday</th>
+      <th>yr</th>
+      <th>temp</th>
+      <th>hum</th>
+      <th>windspeed</th>
+      <th>holiday</th>
+      <th>mnth_2</th>
+      <th>mnth_3</th>
+      <th>mnth_4</th>
+      <th>mnth_5</th>
+      <th>mnth_6</th>
+      <th>mnth_7</th>
+      <th>mnth_8</th>
+      <th>mnth_9</th>
+      <th>mnth_10</th>
+      <th>mnth_11</th>
+      <th>mnth_12</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.344167</td>
+      <td>0.805833</td>
+      <td>0.160446</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.363478</td>
+      <td>0.696087</td>
+      <td>0.248539</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.196364</td>
+      <td>0.437273</td>
+      <td>0.248309</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.200000</td>
+      <td>0.590435</td>
+      <td>0.160296</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.226957</td>
+      <td>0.436957</td>
+      <td>0.186900</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>579</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0.752500</td>
+      <td>0.659583</td>
+      <td>0.129354</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>580</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0.765833</td>
+      <td>0.642500</td>
+      <td>0.215792</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>581</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.793333</td>
+      <td>0.613333</td>
+      <td>0.257458</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>582</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.769167</td>
+      <td>0.652500</td>
+      <td>0.290421</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>583</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0.752500</td>
+      <td>0.654167</td>
+      <td>0.129354</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>584 rows × 18 columns</p>
+</div>
+</div>
+</div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Weights for each feature"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (key, weight) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(X_train.keys(), LR.w)):</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>weight<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Weights for each feature"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (key, weight) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(X_train.keys(), LR.w)):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>weight<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Weights for each feature
  1. weathersit: -108.37113626599087
