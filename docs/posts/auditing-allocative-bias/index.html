@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jack Greenburg">
+<meta name="dcterms.date" content="2023-04-11">
+<meta name="description" content="Blog post #5: auditing allocative bias.">
+
+<title>My Awesome CSCI 0451 Blog - Auditing Allocative Bias</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      color: white;
+background-image: url(../../img/landscape.png);
+background-size: cover;
+    }
+    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">My Awesome CSCI 0451 Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Auditing Allocative Bias</h1>
+                  <div>
+        <div class="description">
+          Blog post #5: auditing allocative bias.
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jack Greenburg </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 11, 2023</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="auditing-allocative-bias" class="level2">
+<h2 class="anchored" data-anchor-id="auditing-allocative-bias">Auditing Allocative Bias</h2>
+<p><a href="https://github.com/jackgreenburg/jackgreenburg.github.io/blob/main/posts/auditing-allocative-bias/">Source code is here.</a></p>
+<p>In this blog post I create a model that predicts employment status from a few features such as age, sex, and disability status, and I then analyze it for racial bias. Notably, race was not one of the features used, but its effects as a feature can be mimicked from combinations of other features.</p>
+<section id="preparing-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="preparing-dataset">Preparing Dataset</h3>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingClassifier</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> folktables <span class="im">import</span> ACSDataSource, ACSEmployment, BasicProblem, adult_filter</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># I chose to stay using Alabama, since they didn't seem to have DC. Roll Tide</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>STATE <span class="op">=</span> <span class="st">"AL"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>data_source <span class="op">=</span> ACSDataSource(survey_year<span class="op">=</span><span class="st">'2018'</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                            horizon<span class="op">=</span><span class="st">'1-Year'</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                            survey<span class="op">=</span><span class="st">'person'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>acs_data <span class="op">=</span> data_source.get_data(states<span class="op">=</span>[STATE], download<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I picked these features:</p>
+<ul>
+<li><p>SCHL - level of schooling</p></li>
+<li><p>MAR - marital status</p></li>
+<li><p>AGEP - age</p></li>
+<li><p>MIL - military experience</p></li>
+<li><p>DIS - disability status</p></li>
+<li><p>SEX</p></li>
+</ul>
+<p>Also note, for RAC1P:</p>
+<ol type="1">
+<li><p>White alone</p></li>
+<li><p>Black or African American alone</p></li>
+<li><p>American Indian alone</p></li>
+<li><p>Alaska Native alone</p></li>
+<li><p>American Indian and Alaska Native tribes specified, or American Indian or Alaska Native, not specified and no other races</p></li>
+<li><p>Asian alone</p></li>
+<li><p>Native Hawaiian and Other Pacific Islander alone</p></li>
+<li><p>Some Other Race alone</p></li>
+<li><p>Two or More Races</p></li>
+</ol>
+<p>But 4, 5, and 6 did not have enough examples, so I folded them into the Some Other Race category. The new indices are:</p>
+<ol type="1">
+<li><p>White alone</p></li>
+<li><p>Black or African American alone</p></li>
+<li><p>American Indian alone</p></li>
+<li><p>Asian alone</p></li>
+<li><p>Some Other Race alone</p></li>
+<li><p>Two or More Races</p></li>
+</ol>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>feature_categories <span class="op">=</span> [<span class="st">"SCHL"</span>, <span class="st">"MAR"</span>, <span class="st">"AGEP"</span>, <span class="st">"DIS"</span>, <span class="st">"SEX"</span>, <span class="st">"NATIVITY"</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>EmploymentProblem <span class="op">=</span> BasicProblem(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    features<span class="op">=</span>feature_categories,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    target<span class="op">=</span><span class="st">'ESR'</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    target_transform<span class="op">=</span><span class="kw">lambda</span> x: x <span class="op">==</span> <span class="dv">1</span>,  <span class="co"># 1 means employed</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    group<span class="op">=</span><span class="st">'RAC1P'</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    preprocess<span class="op">=</span><span class="kw">lambda</span> x: x,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    postprocess<span class="op">=</span><span class="kw">lambda</span> x: np.nan_to_num(x, <span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>features, label, group <span class="op">=</span> EmploymentProblem.df_to_numpy(acs_data)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># fold some races into "other" category</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>group[(group<span class="op">==</span><span class="dv">4</span>) <span class="op">|</span> (group<span class="op">==</span><span class="dv">5</span>) <span class="op">|</span> (group<span class="op">==</span><span class="dv">7</span>)] <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>group[group<span class="op">==</span><span class="dv">6</span>] <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>group[group<span class="op">==</span><span class="dv">8</span>] <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>group[group<span class="op">==</span><span class="dv">9</span>] <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test, group_train, group_test <span class="op">=</span> train_test_split(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    features, label, group, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(X_train, columns <span class="op">=</span> feature_categories)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"group"</span>] <span class="op">=</span> group_train</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"label"</span>] <span class="op">=</span> y_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="some-notes-about-the-data" class="level4">
+<h4 class="anchored" data-anchor-id="some-notes-about-the-data">Some notes about the data</h4>
+<div class="cell" data-execution_count="142">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>races <span class="op">=</span> [</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"White"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Black"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"American Indian"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Asian"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Other Race"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Two or More Races"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"1. There are </span><span class="sc">{</span>df<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> individuals in the dataset."</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"2. Of those individuals, </span><span class="sc">{</span>df<span class="sc">.</span>label<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss"> are employed"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"3, 4. Number and ratio employed by group:"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>employee_races <span class="op">=</span> df[df[<span class="st">"label"</span>] <span class="op">==</span> <span class="va">True</span>][<span class="st">"group"</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>employed_per_group <span class="op">=</span> employee_races.value_counts(sort<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>ratio_employed_per_group <span class="op">=</span> employed_per_group<span class="op">/</span>df[<span class="st">"group"</span>].value_counts(sort<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"     Race"</span>.ljust(<span class="dv">28</span>) <span class="op">+</span> <span class="st">"Employed"</span>.rjust(<span class="dv">10</span>) <span class="op">+</span> <span class="st">"Ratio Employed"</span>.rjust(<span class="dv">20</span>))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, race <span class="kw">in</span> <span class="bu">enumerate</span>(races):</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> <span class="ss">f"  </span><span class="sc">{</span>index<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>race<span class="sc">}</span><span class="ss">:"</span>.ljust(<span class="dv">28</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    line <span class="op">+=</span> <span class="ss">f"</span><span class="sc">{</span>employed_per_group[index<span class="op">+</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss"> "</span>.rjust(<span class="dv">10</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    line <span class="op">+=</span> <span class="ss">f"</span><span class="sc">{</span><span class="bu">round</span>(ratio_employed_per_group[index<span class="op">+</span><span class="dv">1</span>] <span class="op">*</span> <span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">% "</span>.rjust(<span class="dv">20</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(line)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># plot disability race intersection</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>group_dict <span class="op">=</span> {i<span class="op">+</span><span class="dv">1</span>: status <span class="cf">for</span> i, status <span class="kw">in</span> <span class="bu">enumerate</span>(races)}</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>working_by_race <span class="op">=</span> df.query(<span class="st">"DIS==1"</span>)[[<span class="st">"label"</span>, <span class="st">"group"</span>]].value_counts(sort<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">6</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>))</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (index, race) <span class="kw">in</span> <span class="bu">enumerate</span>(group_dict.items()):</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    axarr[i].pie((working_by_race[<span class="va">False</span>][index], working_by_race[<span class="va">True</span>][index]), autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    axarr[i].set_title(race)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>plt.legend(labels<span class="op">=</span>[<span class="st">"Not employed"</span>, <span class="st">"Employed"</span>], loc<span class="op">=</span><span class="st">"lower right"</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"5. A plot showing percent of those who have a disability who are employed, by race:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1. There are 38221 individuals in the dataset.
+2. Of those individuals, 15638 are employed
+3, 4. Number and ratio employed by group:
+     Race                     Employed      Ratio Employed
+  1. White:                     12020              42.26% 
+  2. Black:                      2976              36.88% 
+  3. American Indian:              68              43.59% 
+  4. Asian:                       226               50.0% 
+  5. Other Race:                  157              35.76% 
+  6. Two or More Races:           191              28.81% 
+5. A plot showing percent of those who have a disability who are employed, by race:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-a-predictor" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-predictor">Creating a Predictor</h3>
+<p>I performed a grid search with <code>max_depth=[5, 10]</code> and <code>max_features=[10, 20, 50]</code> and it found <code>max_depth=5</code> and <code>max_features=10</code> to be optimal.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># parameters = {"gradientboostingclassifier__max_depth": (5, 10),</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#               "gradientboostingclassifier__max_features": (10, 20, 50)}</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pipeline = make_pipeline(StandardScaler(), GradientBoostingClassifier())</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># clf = GridSearchCV(pipeline, </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                    parameters, </span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                    scoring="accuracy")</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># clf.fit(X_train, y_train)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> make_pipeline(StandardScaler(), GradientBoostingClassifier(max_depth<span class="op">=</span><span class="dv">5</span>, max_features<span class="op">=</span><span class="dv">10</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> pipeline.fit(X_train, y_train)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> clf.predict(X_test)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>pipeline.get_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>&lt;bound method Pipeline.get_params of Pipeline(steps=[('standardscaler', StandardScaler()),
+                ('gradientboostingclassifier',
+                 GradientBoostingClassifier(max_depth=5, max_features=10))])&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="auditing-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="auditing-the-model">Auditing the Model</h3>
+<section id="overall-and-by-group-measures" class="level4">
+<h4 class="anchored" data-anchor-id="overall-and-by-group-measures">Overall and By Group Measures</h4>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_measures(<span class="op">*</span>, y_test, y_pred, print_bool<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    (TN, FP), (FN, TP) <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: (y_pred <span class="op">==</span> y_test).mean(),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"PPV"</span>: TP <span class="op">/</span> (TP<span class="op">+</span>FP),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"FPR"</span>: FP <span class="op">/</span> (FP<span class="op">+</span>TN),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"FNR"</span>: FN <span class="op">/</span> (TP<span class="op">+</span>FN)       </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"Predicted Employed"</span>] <span class="op">=</span> (TP <span class="op">+</span> FP) <span class="op">/</span> (TP <span class="op">+</span> FP <span class="op">+</span> TN <span class="op">+</span> FN)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> print_bool: </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> key, value <span class="kw">in</span> data.items(): <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">round</span>(value <span class="op">*</span> <span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> data</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"All data:"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>compute_measures(y_test<span class="op">=</span>y_test, y_pred<span class="op">=</span>y_pred, print_bool<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>audit_dict <span class="op">=</span> {}</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, race <span class="kw">in</span> group_dict.items():</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"\n{race} subgroup:")</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    audit_dict[race] <span class="op">=</span> compute_measures(y_test<span class="op">=</span>y_test[group_test<span class="op">==</span>index], y_pred<span class="op">=</span>y_pred[group_test<span class="op">==</span>index])</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(audit_dict).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>All data:
+Accuracy: 81.07%
+PPV: 76.35%
+FPR: 17.0%
+FNR: 21.69%
+Predicted Employed: 42.26%</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Accuracy</th>
+      <th>PPV</th>
+      <th>FPR</th>
+      <th>FNR</th>
+      <th>Predicted Employed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>White</th>
+      <td>0.809845</td>
+      <td>0.776081</td>
+      <td>0.169746</td>
+      <td>0.217306</td>
+      <td>0.432771</td>
+    </tr>
+    <tr>
+      <th>Black</th>
+      <td>0.814670</td>
+      <td>0.722981</td>
+      <td>0.170620</td>
+      <td>0.211382</td>
+      <td>0.393643</td>
+    </tr>
+    <tr>
+      <th>American Indian</th>
+      <td>0.769231</td>
+      <td>0.700000</td>
+      <td>0.187500</td>
+      <td>0.300000</td>
+      <td>0.384615</td>
+    </tr>
+    <tr>
+      <th>Asian</th>
+      <td>0.711538</td>
+      <td>0.690909</td>
+      <td>0.320755</td>
+      <td>0.254902</td>
+      <td>0.528846</td>
+    </tr>
+    <tr>
+      <th>Other Race</th>
+      <td>0.868687</td>
+      <td>0.864865</td>
+      <td>0.084746</td>
+      <td>0.200000</td>
+      <td>0.373737</td>
+    </tr>
+    <tr>
+      <th>Two or More Races</th>
+      <td>0.831395</td>
+      <td>0.666667</td>
+      <td>0.144000</td>
+      <td>0.234043</td>
+      <td>0.313953</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="156">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Ground truth percentages employed for reference:"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>true_employment_percentages <span class="op">=</span> df.query(<span class="st">'label==True'</span>)[<span class="st">'group'</span>].value_counts(sort<span class="op">=</span><span class="va">False</span>) <span class="op">/</span> df[<span class="st">'group'</span>].value_counts(sort<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (index, race), percentage <span class="kw">in</span> <span class="bu">zip</span>(group_dict.items(), true_employment_percentages):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>race<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">round</span>(percentage<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ground truth percentages employed for reference:
+1. White: 42.26%
+2. Black: 36.88%
+3. American Indian: 43.59%
+4. Asian: 50.0%
+5. Other Race: 35.76%
+6. Two or More Races: 28.81%</code></pre>
+</div>
+</div>
+<section id="bias-measures" class="level5">
+<h5 class="anchored" data-anchor-id="bias-measures">Bias Measures</h5>
+<ul>
+<li><p>Is your model approximately calibrated?</p>
+<p>My model should be calibrated. The score threshold for a positive prediction should be the same across all samples in the dataset.</p></li>
+<li><p>Does your model satisfy approximate error rate balance?</p>
+<p>My model does not fully satisfy error rate balance. The two largest groups (white and black) have similar FPR (~17%) and FNR (~22%), but many of the classes with lower prevalence have quite different rates.</p></li>
+<li><p>Does your model satisfy statistical parity?</p>
+<p>My model does not satisfy statistical parity. Predicted employment percentages vary over a range of about 20 percentage points.</p></li>
+</ul>
+</section>
+</section>
+<section id="intersectional-bias" class="level4">
+<h4 class="anchored" data-anchor-id="intersectional-bias">Intersectional Bias</h4>
+<div class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>bias_df <span class="op">=</span> pd.DataFrame(X_test, columns <span class="op">=</span> feature_categories)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bias_df[<span class="st">"group"</span>] <span class="op">=</span> group_test</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>bias_df[<span class="st">"label"</span>] <span class="op">=</span> y_test</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>intersectional_audit_dict <span class="op">=</span> {}</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, race <span class="kw">in</span> group_dict.items():</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subgroup <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>]:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(f"\n{race} subgroup:")</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        include_bool_arr <span class="op">=</span> (group_test<span class="op">==</span>index) <span class="op">|</span> (bias_df[<span class="st">"DIS"</span>] <span class="op">==</span> subgroup)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        intersectional_audit_dict[<span class="ss">f"With</span><span class="sc">{</span>[<span class="st">''</span>, <span class="st">'out'</span>][subgroup<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss"> Disability, </span><span class="sc">{</span>race<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> compute_measures(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            y_test<span class="op">=</span>y_test[include_bool_arr], </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            y_pred<span class="op">=</span>y_pred[include_bool_arr]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(intersectional_audit_dict).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Accuracy</th>
+      <th>PPV</th>
+      <th>FPR</th>
+      <th>FNR</th>
+      <th>Predicted Employed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>With Disability, White</th>
+      <td>0.812352</td>
+      <td>0.774298</td>
+      <td>0.156832</td>
+      <td>0.231657</td>
+      <td>0.408683</td>
+    </tr>
+    <tr>
+      <th>Without Disability, White</th>
+      <td>0.808649</td>
+      <td>0.764808</td>
+      <td>0.181000</td>
+      <td>0.205327</td>
+      <td>0.442121</td>
+    </tr>
+    <tr>
+      <th>With Disability, Black</th>
+      <td>0.825578</td>
+      <td>0.716609</td>
+      <td>0.099673</td>
+      <td>0.363261</td>
+      <td>0.251975</td>
+    </tr>
+    <tr>
+      <th>Without Disability, Black</th>
+      <td>0.805474</td>
+      <td>0.765445</td>
+      <td>0.208575</td>
+      <td>0.177550</td>
+      <td>0.486559</td>
+    </tr>
+    <tr>
+      <th>With Disability, American Indian</th>
+      <td>0.844875</td>
+      <td>0.623377</td>
+      <td>0.019256</td>
+      <td>0.839465</td>
+      <td>0.042659</td>
+    </tr>
+    <tr>
+      <th>Without Disability, American Indian</th>
+      <td>0.802623</td>
+      <td>0.766054</td>
+      <td>0.224994</td>
+      <td>0.166118</td>
+      <td>0.510608</td>
+    </tr>
+    <tr>
+      <th>With Disability, Asian</th>
+      <td>0.838470</td>
+      <td>0.636364</td>
+      <td>0.028479</td>
+      <td>0.771513</td>
+      <td>0.064293</td>
+    </tr>
+    <tr>
+      <th>Without Disability, Asian</th>
+      <td>0.802648</td>
+      <td>0.766365</td>
+      <td>0.224861</td>
+      <td>0.166256</td>
+      <td>0.510671</td>
+    </tr>
+    <tr>
+      <th>With Disability, Other Race</th>
+      <td>0.847304</td>
+      <td>0.699029</td>
+      <td>0.020052</td>
+      <td>0.779817</td>
+      <td>0.054992</td>
+    </tr>
+    <tr>
+      <th>Without Disability, Other Race</th>
+      <td>0.802621</td>
+      <td>0.766113</td>
+      <td>0.224831</td>
+      <td>0.166301</td>
+      <td>0.510409</td>
+    </tr>
+    <tr>
+      <th>With Disability, Two or More Races</th>
+      <td>0.844525</td>
+      <td>0.638655</td>
+      <td>0.026841</td>
+      <td>0.772455</td>
+      <td>0.061467</td>
+    </tr>
+    <tr>
+      <th>Without Disability, Two or More Races</th>
+      <td>0.802746</td>
+      <td>0.765920</td>
+      <td>0.224529</td>
+      <td>0.166301</td>
+      <td>0.509882</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>The false negative rates here are really interesting. It seems that the model does not significantly alter its prediction based off disability for white people, but for every other racial category the changes are quite large. These numbers almost make sense when you look at the above pie plots: Asian’s and American Indian’s with disabilities are twice as likely to be working. This would partially explain why their false negative rates are high, but it wouldn’t explain the other races with very high FNRs.</p>
+<section id="feature-importances-i-was-curious" class="level5">
+<h5 class="anchored" data-anchor-id="feature-importances-i-was-curious">Feature Importances (I was curious)</h5>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> feat, importance <span class="kw">in</span> <span class="bu">zip</span>(feature_categories, clf[<span class="dv">1</span>].feature_importances_):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>feat<span class="sc">}</span><span class="ss">:, </span><span class="sc">{</span><span class="bu">round</span>(importance<span class="op">*</span><span class="dv">100</span>, <span class="dv">2</span>)<span class="sc">}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SCHL:, 36.14%
+MAR:, 2.65%
+AGEP:, 46.12%
+DIS:, 11.35%
+SEX:, 3.1%
+NATIVITY:, 0.64%</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="concluding-discussion" class="level3">
+<h3 class="anchored" data-anchor-id="concluding-discussion">Concluding Discussion</h3>
+<p>A model trained to predict unemployment could be used for a variety of purposes. Here are two examples where it could be used:</p>
+<ol type="1">
+<li>It could be used to direct job ads to people that are unemployed, hoping to find people that are looking for work.</li>
+<li>It could be used to direct job ads to only people that are employed, viewing the unemployed as undesirable.</li>
+</ol>
+<p>In this sense, depending on its application, it could both help and hurt unemployed people. If we take American Indians as an example, since my model only had a very low FPR for them, they would be less likely to be excluded from job ads targeted to unemployed people, and more likely to be excluded from ads targeted to employed people.</p>
+<p>The actual real world applications for my model specifically are slim. For starters, it is a very mediocre classifier, but, also, a model trained to predict employment status from the identifiers that I used could only be used by somebody with access to a bizarre dataset. The features I used are generally not easier to come by than employment status is to gain directly. Furthermore, the features that are harder to acquire are the more important ones. Perhaps Instagram or Facebook could analyze your account to come up with age, sex, and relationship status, but level of schooling and disability seem much harder, and for little payoff. To put it plainly, anybody that really needs employment status usually has the ability to ask directly, and if they can’t ask then they’re probably not going to have the data necessary to predict it.</p>
+<p>I think my model does display some problematic bias. The most concerning issue to me is the error rate balance. More specifically, I am concerned by how high the FPR is for American Indians and how high the FNR is for Asians. Most of the other values are relatively in line with each other, but these two stand out. If this model were to be implemented it, then American Indians and Asians would not be properly represented.</p>
+<p>Beyond concerns of bias, I think my model is incredibly innocuous. A model that predicted employment status through gait or clothing would be much more dangerous since it could be employed so much wider. The issue of acquiring the data necessary makes my model highly impractical to actually use by someone with malicious intentions.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -256,7 +256,7 @@ background-size: cover;
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_train, y_train, X_val, y_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_train <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n_val <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">1</span></span>
@@ -299,12 +299,12 @@ background-size: cover;
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Analytical method:
-Training score = 0.6929
-Validation score = 0.6476
+Training score = 0.4919
+Validation score = 0.4647
 
 Gradient method:
-Training score = 0.6929
-Validation score = 0.6476</code></pre>
+Training score = 0.4919
+Validation score = 0.4647</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
@@ -361,11 +361,11 @@ Validation score = 0.6476</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Scores with 100 training samples and 99 features:
 Training score = 1.0
-Validation score = -2269.1898
+Validation score = 0.5331
 
 Scores while using modified loss function with regularization term:
-Training score = 0.9973
-Validation score = 0.8407</code></pre>
+Training score = 0.9982
+Validation score = 0.8288</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
@@ -377,7 +377,7 @@ Validation score = 0.8407</code></pre>
 <section id="experiment-3-bike-share-data" class="level3">
 <h3 class="anchored" data-anchor-id="experiment-3-bike-share-data">Experiment 3: Bike Share Data</h3>
 <p>In this experiment we will train a model to predict the number of riders of a bikesharing program in DC.</p>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"https://philchodrow.github.io/PIC16A/datasets/Bike-Sharing-Dataset/day.csv"</span>)</span>
@@ -427,9 +427,9 @@ Validation score = 0.6968</code></pre>
 <p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="7">
 
 <div>
 
@@ -695,7 +695,7 @@ Validation score = 0.6968</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Weights for each feature"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (key, weight) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(X_train.keys(), LR.w)):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f" </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>weight<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
