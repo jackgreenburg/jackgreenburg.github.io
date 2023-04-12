@@ -217,7 +217,7 @@ background-size: cover;
 <section id="logistic-regression" class="level3">
 <h3 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h3>
 <p><a href="https://github.com/jackgreenburg/jackgreenburg.github.io/blob/main/posts/logistic-regression/logreg.py">Source code is here.</a></p>
-<p>In this blog post I have implemented logistic regression.</p>
+<p>In this blog post I have implemented logistic regression. I will show what happens when alpha is set too high (it doesn’t converge), and I will also test stochastic gradient descent and gradient descent with momentum in order to show how it they converge faster but less smoothly.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> logreg <span class="im">import</span> LogisticRegression</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -241,7 +241,6 @@ background-size: cover;
 <h3 class="anchored" data-anchor-id="experiment-1-alpha-too-large">Experiment 1: Alpha Too Large</h3>
 <p>In this experiment I train two models on the same data with the same initial weights and the same number of epochs in order to demonstrate what can happen when alpha is too high.</p>
 <p>In the charts and graphs below, the blue corresponds to the model trained with alpha=10 and the red corresponds with alpha=20.</p>
-<p>In the scatter plots, I plot all of the best fit lines, increasing the opacity of the lines to 100% as we approach the final epoch. In the alpha=10 plot, we see that the line quickly finds roughly where it needs to be and then makes very small changes it approaches the optimal line. In the alpha=20 plot, the best fit lines are all over the place. We see why if we look at the loss graph. Every time the alpha=20 model gets close to a very low loss, it passes the minimum and the loss jumps back up again.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">38532555</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">3</span></span>
@@ -292,12 +291,12 @@ background-size: cover;
 <p><img src="index_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>In the scatter plots above, I plot all of the best fit lines, increasing the opacity of the lines to 100% as we approach the final epoch. In the alpha=10 plot, we see that the line quickly finds roughly where it needs to be and then makes very small changes it approaches the optimal line. In the alpha=20 plot, the best fit lines are all over the place. We see why if we look at the loss graph. Every time the alpha=20 model gets close to a very low loss, it passes the minimum and the loss jumps back up again.</p>
 </section>
 <section id="experiment-2-and-3-batch-size-and-momentum" class="level3">
 <h3 class="anchored" data-anchor-id="experiment-2-and-3-batch-size-and-momentum">Experiment 2 and 3: Batch Size and Momentum</h3>
 <p>In this experiment I will demonstrate how small batch gradient descent can boost the speed of an algorithm, and then how momentum can boost speed on top of that.</p>
 <p>All models are trained with the same data, starting weights, and number of epochs.</p>
-<p>The data has five features, so I will not be showing any best fit lines. Instead, I chart the loss and score histories. These cleary show how the non sped up gradient descent has not even come close to reaching a minimum after 250 epochs. The stochasitc descent took over 200 epochs, but the stochastic with momentum took only about 50.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">385325</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">6</span></span>
@@ -337,6 +336,7 @@ background-size: cover;
 <p><img src="index_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<p>The data has five features, so I will have not shown any best fit lines. Instead, I charted the loss and score histories. These clearly show how the non sped up gradient descent has not even come close to reaching a minimum after 250 epochs. On the other hand, the stochastic descent took over 200 epochs, and the stochastic with momentum took only about 50.</p>
 
 
 </section>
