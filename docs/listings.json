@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/final-project/index.html",
       "/posts/gebru/index.html",
       "/posts/auditing-allocative-bias/index.html",
       "/posts/linear-regression/index.html",

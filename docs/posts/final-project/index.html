@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jack Greenburg">
+<meta name="dcterms.date" content="2023-05-23">
+<meta name="description" content="Final Poject: HAPI prediction.">
+
+<title>My Awesome CSCI 0451 Blog - HAPI Prediction</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      color: white;
+background-image: url(../../img/landscape.png);
+background-size: cover;
+    }
+    </style>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">My Awesome CSCI 0451 Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">HAPI Prediction</h1>
+                  <div>
+        <div class="description">
+          Final Poject: HAPI prediction.
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jack Greenburg </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 23, 2023</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="predicting-hapi-occurrence" class="level1">
+<h1>Predicting HAPI Occurrence</h1>
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>Hospital acquired pressure injuries (HAPI) pose a significant risk to the health of patients and are costly for hospitals. Furthermore, they are avoidable with proper proactive care. At the moment, hospitals rely primarily on nurses to prevent HAPI from developing. Among other tools, they utilize the Braden Scale to help identify high risk patients requiring special attention. Previous studies have explored machine learning as a way to assist in the prediction of pressure injuries in order to help identify high risk patients. This project builds off those studies by incorporating time-stamped lab tests. We hypothesized that how HGB, Albumin, etc. levels change over time could predict the occurrence of a pressure injury. No significant results were achieved.</p>
+<p>Source code is <a href="https://github.com/jackgreenburg/midd-hapi">here</a>. All code was ran on Dartmouth’s high performance cluster, and select files were copied over with all references to the data removed.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">2 Introduction</h2>
+<p>Pressure injuries, also commonly called pressure ulcers or bedsores, describe the tissue damage caused by prolonged pressure against one’s body. They occur primarily in people that cannot move themselves around easily. Hospital acquired pressure injuries (HAPI) have particular costs. HAPIs coincide with prolonged hospital stays and worse health outcomes. Patients that acquire a HAPI on average stay longer and require being readmitted more often; they are also more likely to die while in the hospital (<span class="citation" data-cites="gaspar2019review">Gaspar et al. (<a href="#ref-gaspar2019review" role="doc-biblioref">2019</a>)</span>). Traditionally, it is thought that all HAPI are avoidable, so hospitals devote extensive resources towards ensuring HAPIs do not occur in the first place (<span class="citation" data-cites="lyder2012hapiarebad">Lyder et al. (<a href="#ref-lyder2012hapiarebad" role="doc-biblioref">2012</a>)</span>).</p>
+<p>The current method for preventing HAPI relies on identifying patients of high risk, and applying more focused strategies with them that are too expensive to be applied broadly. One commonly employed method is the Braden Scale, which is a chart that nurses fill out regularly that estimates their risk based on certain common risk factors such as low mobility or higher levels of moisture. This is not a perfect solution, and some are unsure if this scale is effective at all (<span class="citation" data-cites="lyder2012hapiarebad">Lyder et al. (<a href="#ref-lyder2012hapiarebad" role="doc-biblioref">2012</a>)</span>).</p>
+<p>A highly accurate predictor would be incredibly valuable, so naturally many papers have come out that examine predictors made with a wide range of machine learning methods (<span class="citation" data-cites="levy2022main">Levy et al. (<a href="#ref-levy2022main" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="walther2022basic">Walther et al. (<a href="#ref-walther2022basic" role="doc-biblioref">2022</a>)</span>, <span class="citation" data-cites="song2021basic">Song et al. (<a href="#ref-song2021basic" role="doc-biblioref">2021</a>)</span>, <span class="citation" data-cites="kaewprag2017basic">Kaewprag et al. (<a href="#ref-kaewprag2017basic" role="doc-biblioref">2017</a>)</span>). These papers incorporate a wide range of features and they use a wide range of techniques, but generally decision tree based models seem to be the most effective. All of them used time-invariant data. <span class="citation" data-cites="sin2022time">Šín et al. (<a href="#ref-sin2022time" role="doc-biblioref">2022</a>)</span> incorporates time-variant data using the MIMIC IV dataset, but they average that data across an entire week, and it is not a significant focus of their research. My next research focused on looking at how to incorporate the time-variant data.</p>
+<p>The biggest complication I needed to deal with was the extreme missingness of my dataset (which I will expand on in the methods section). I was directed towards imputation, and <span class="citation" data-cites="wells2013imputation">Wells et al. (<a href="#ref-wells2013imputation" role="doc-biblioref">2013</a>)</span> suggested a method MICE, but ultimately the paper that influenced me the most was by <span class="citation" data-cites="che2018grud">Che et al. (<a href="#ref-che2018grud" role="doc-biblioref">2018</a>)</span>. They developed a variant of a GRU (gated recurrent network) that incorporated a decay term. GRUs are structurally very similar to LSTMs, and they both are optimized to deal with the vanishing gradient problem that arises with RNNs when data sequences get long. Other papers such as this one by <span class="citation" data-cites="andjelkovic2022grulstm">Andjelkovic et al. (<a href="#ref-andjelkovic2022grulstm" role="doc-biblioref">2022</a>)</span> also suggested to me that I should implement a GRU.</p>
+</section>
+<section id="values-statement" class="level2">
+<h2 class="anchored" data-anchor-id="values-statement">3 Values Statement</h2>
+<p>Hospital acquired pressure injuries are a serious health risk to patients, and they are a financial burden on hospitals. Hospitals would surely use a tool that could accurately predict who is likely to develop pressure injuries, and patients would benefit. Hospitals would spend less money on programs to prevent pressure injuries, and they would spend less money taking care of patients that acquire them. Patients would be less likely to develop a pressure injury. The incorporation of time-variant data into our model would also mean that more timely care could be provided.</p>
+<p>Nurses’ jobs could in theory be made easier by a tool that automatically monitors everyone’s likelihood to develop a pressure injury, but in reality they would still need to just as vigilant as they usually are. All of the training data we have comes from patients who had all of the relevant resources dedicated to them. Nurses prevent far more pressure injuries than our algorithm knows about, so it is not trained to create accurate predictions for everyone. It is only trained to predict high risk for patients that developed a pressure injury in spite of focused care. One can imagine a scenario where a model produced on our training data would assess an extremely high risk patient as a low risk patient because nurses would know to be vigilant with turning and taking care of that patient.</p>
+<p>Another reason that a model created on my dataset should only be ever used in addition to the preventative methods employed currently is that my model is trained data from central New Hampshire. This means that non-white patients constitute a small fraction of the dataset, so it would be difficult to ensure that a model behaves similarly across people that are different from the average person from in and around Lebanon, New Hampshire.</p>
+<p>Despite those two possible downsides, I still believe a model that can assist in identifying patients that are likely to slip through the cracks of the preventative care measures would be overall beneficial. Those using it would need to stay ensure that they never defer to it, and I think it would need to be heavily emphasized as a tool to help identify high risk patients that were otherwise likely to be assessed as low risk, rather than as a generalized risk assessor. As long as that is the case, I think, if my project worked, that it would contribute to a healthier and more equitable hospital.</p>
+</section>
+<section id="materials-and-methods" class="level2">
+<h2 class="anchored" data-anchor-id="materials-and-methods">4 Materials and Methods</h2>
+<section id="the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="the-dataset">The Dataset</h3>
+<p>The dataset I used came from Dartmouth-Hitchcock hospital in Lebanon, New Hampshire. It contained data from 133,024 patient encounters from 82,033 unique patients from 2011 to 2021. We also had the ICD-10 codes that we were able to use to determine if a patient had developed a pressure injury in the hospital. The dataset has many different time-invariant and time-variant features. For this project I focused on the time-variant feature of lab test results.</p>
+<p>As mentioned in the previous section, this dataset comes from a place with very little racial diversity. Of the 82,033 unique patients, nearly over 79,000 were white alone.Given the incredibly low HAPI incidence rate, it would be essentially impossible to determine whether our model is equally accurate for all races. Of the 251 patients we determined to have developed HAPI, only two races were represented and 246 of them were white.</p>
+<p>The data that I focused on for this project was the lab test data. Each row of this dataset contained the following info:</p>
+<ul>
+<li>The deidentified patient ID</li>
+<li>The patient encounter</li>
+<li>The type of test ordered</li>
+<li>The day the test was ordered</li>
+<li>The day and time the test was collected</li>
+<li>The day and time the results came back</li>
+<li>The value of the test results</li>
+</ul>
+<p>This dataset does contain sensitive health information, and deanonymization is theoretically possible, so I am being very careful with the information that I display. I was required to take multiple online courses on data security and HIPAA violations before I could access data like this. This data will never be broadly available, and I need to ensure to keep it that way.</p>
+</section>
+<section id="my-approach" class="level3">
+<h3 class="anchored" data-anchor-id="my-approach">My Approach</h3>
+<p>Before I got into my advanced lab test testing, I wanted to ensure that the data could be used to predict HAPI by implementing something relatively basic. The first thing I did was steal some code and whip up a basic classifier using all of the data available to me. For this I wanted each sample to be a 1D array, so I could not have any data that changed over time. In order to still incorporate it, for the time-variant data I took the min, mean, and max values as features. I had done most of this processing before officially starting on this project, so I will not expand on it too much here. I then used scikit-learn’s IterativeImputer on the basic features and mean imputation on the more missing features. I then trained simple logistic regression, decision tree, naive bayes, and XGBoost models using scikit-learn’s GridSearchCV.</p>
+<p>After that basic test gave decent enough results, I was confident enough to begin with the real work incorporating the time-variant data. I started by just using lab tests to see if I could create a predictor that was better than random chance. I originally planned for this to be a simple precursor test to determine if using lab tests conferred any predictive advantage.</p>
+<p>Formatting the lab test data resulted in significant complications. What I ended up doing was similar to <span class="citation" data-cites="sin2022time">Šín et al. (<a href="#ref-sin2022time" role="doc-biblioref">2022</a>)</span>. I averaged the test results for each test across each day. Most days most patients did not get every test, so most of the days had NaN instead of any value. All of these NaN’s required imputation. I also chose to limit my sequence lengths to only the first ten days of tests, and I only used the four tests that had the most values recorded. After removing patients with incorrect or insufficient data, I was left with a tensor containing 105,255 patients with 4 tests each and 10 values per test. Below is a figure showing the missingness; each yellow line is a value that is missing. From <span class="citation" data-cites="che2018grud">Che et al. (<a href="#ref-che2018grud" role="doc-biblioref">2018</a>)</span> I saw that mean imputation could still be highly effective, so that was the technique I chose (while planning to try more in the future).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="heatmap.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Heatmap</figcaption><p></p>
+</figure>
+</div>
+<p>Once I had a tensor with no missing values, I attempted to use torch to train a GRU model. I used a simple GRU layer into a fully connected layer. I chose binary cross entropy as my loss function due to the extreme class imbalance of my dataset, and I chose Adam as my optimizer. I did not get significantly past this point, and I will expand on why in the following section. I did not implement any cross validation or hyperparameter tuning techniques, nor did perform any audits of my result.</p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">5 Results</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aucs.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">AUCs</figcaption><p></p>
+</figure>
+</div>
+<p>For the more basic models I implemented as a check, I got relatively decent accuracies (as measured by the AUC). The figure above contains the AUCs of the four models I tested, with the best accuracies coming from the naive Bayes and logistic regression classifiers. I did not perform any specificity or sensitivity tests, but based on the crosstab I can rest assured in knowing that they were pretty bad. My results were close enough to <span class="citation" data-cites="levy2022main">Levy et al. (<a href="#ref-levy2022main" role="doc-biblioref">2022</a>)</span> that I felt confident enough to proceed.</p>
+<p>I was not able to get my GRU model to return any meaningful predictions. At first I simply believed this was a problem I could fix by messing around with parameters, increasing the number of epochs, changing the batch size, etc., but ultimately I realized that it actually just was not working properly. Despite spending a significant time reviewing the docs and reimplementing the model I was not able to find the source of my error. At the suggestion of Prof.&nbsp;Chodrow, I simplified my model down to linear regression and generated some far simplified fake data that somewhat resembled my dataset in an attempt to eliminate all possible sources of error. This led me to discover that the torch Sequential I had wrapped around my model somehow interacted with the BCELoss in such a way as to cause the optimizer to turn all of my model weights to NaN. I am still unsure if this is the only error I was having, as even though my weights are no longer all becoming null, they do not appear to be improving when I train.</p>
+</section>
+<section id="concluding-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="concluding-discussion">6 Concluding Discussion</h2>
+<p>Ultimately, my project fell definitively into the “partial success” category. I was only able to implement some of the vectorization techniques, and I barely tested out a few models. I certainly did not train any models that can match up to others that have been developed. At the very least, I did significantly advance my knowledge of everything that I implemented. My understanding of processing data and of GRUs expanded greatly due to this project. My failings were so insurmountable that I had to learn extra about everything I was doing to ensure that each individual step was not the main source of the problem.</p>
+<p>I will still continue to work on this project, so I view the time I spent working as time more than well spent. It is all part of the slow progress I am making towards a fantastic result down the line. If I find conclusively that my hypothesis (that lab test data can help predict HAPI) is completely inaccurate, then I will consider that a job well done. In the short future I will iron out my errors and I will know more than ever before.</p>
+</section>
+<section id="group-contributions-statement" class="level2">
+<h2 class="anchored" data-anchor-id="group-contributions-statement">7 Group Contributions Statement</h2>
+<p>Since this was a solo project, I do not have much to say about the contributions of any other group members.</p>
+</section>
+<section id="personal-reflection" class="level2">
+<h2 class="anchored" data-anchor-id="personal-reflection">8 Personal Reflection</h2>
+<p>I somewhat touched on this in my concluding discussion, but I believe that I learned a great deal. Despite my ultimate (albeit hopefully temporary) shortcoming, I think my understanding of the machine learning pipeline expanded greatly throughout this project. I am still of course disappointed that I got caught for so long on something so little, but I find solace in the fact that it made me take the time to really learn the process in and out while I was looking for the source of my error. I feel that my understanding of GRUs and really RNNs in general is considerably greater than when I started. I also feel that I had really good experience with data processing, and that my work in this domain was notably more fluid and natural than in my previous work. I will carry these skills quite literally into tomorrow when I continue to work on this project in preparation for my regularly scheduled meeting with my advisor.</p>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-andjelkovic2022grulstm" class="csl-entry" role="doc-biblioentry">
+Andjelkovic, Jovan, Branimir Ljubic, Ameen Abdel Hai, Marija Stanojevic, Martin Pavlovski, Wilson Diaz, and Zoran Obradovic. 2022. <span>“Sequential Machine Learning in Prediction of Common Cancers.”</span> <em>Informatics in Medicine Unlocked</em> 30: 100928. https://doi.org/<a href="https://doi.org/10.1016/j.imu.2022.100928">https://doi.org/10.1016/j.imu.2022.100928</a>.
+</div>
+<div id="ref-che2018grud" class="csl-entry" role="doc-biblioentry">
+Che, Zhengping, Sanjay Purushotham, Kyunghyun Cho, David Sontag, and Yan Liu. 2018. <span>“Recurrent Neural Networks for Multivariate Time Series with Missing Values.”</span> <em>Scientific Reports</em> 8 (1): 6085. <a href="https://doi.org/10.1038/s41598-018-24271-9">https://doi.org/10.1038/s41598-018-24271-9</a>.
+</div>
+<div id="ref-gaspar2019review" class="csl-entry" role="doc-biblioentry">
+Gaspar, Susana, Miguel Peralta, Adilson Marques, Aglécia Budri, and Margarida Gaspar de Matos. 2019. <span>“Effectiveness on Hospital-Acquired Pressure Ulcers Prevention: A Systematic Review.”</span> <em>International Wound Journal</em> 16 (5): 1087–1102. https://doi.org/<a href="https://doi.org/10.1111/iwj.13147">https://doi.org/10.1111/iwj.13147</a>.
+</div>
+<div id="ref-kaewprag2017basic" class="csl-entry" role="doc-biblioentry">
+Kaewprag, Pacharmon, Cheryl Newton, Brenda Vermillion, Sookyung Hyun, Kun Huang, and Raghu Machiraju. 2017. <span>“Predictive Models for Pressure Ulcers from Intensive Care Unit Electronic Health Records Using Bayesian Networks.”</span> <em>BMC Medical Informatics and Decision Making</em> 17 (2): 65. <a href="https://doi.org/10.1186/s12911-017-0471-z">https://doi.org/10.1186/s12911-017-0471-z</a>.
+</div>
+<div id="ref-levy2022main" class="csl-entry" role="doc-biblioentry">
+Levy, Joshua J., Jorge F. Lima, Megan W. Miller, Gary L. Freed, A. James O’Malley, and Rebecca T. Emeny. 2022. <span>“Machine Learning Approaches for Hospital Acquired Pressure Injuries: A Retrospective Study of Electronic Medical Records.”</span> <em>Frontiers in Medical Technology</em> 4. <a href="https://doi.org/10.3389/fmedt.2022.926667">https://doi.org/10.3389/fmedt.2022.926667</a>.
+</div>
+<div id="ref-lyder2012hapiarebad" class="csl-entry" role="doc-biblioentry">
+Lyder, Courtney H., Yun Wang, Mark Metersky, Maureen Curry, Rebecca Kliman, Nancy R. Verzier, and David R. Hunt. 2012. <span>“Hospital-Acquired Pressure Ulcers: Results from the National Medicare Patient Safety Monitoring System Study.”</span> <em>Journal of the American Geriatrics Society</em> 60 (9): 1603–8. https://doi.org/<a href="https://doi.org/10.1111/j.1532-5415.2012.04106.x">https://doi.org/10.1111/j.1532-5415.2012.04106.x</a>.
+</div>
+<div id="ref-sin2022time" class="csl-entry" role="doc-biblioentry">
+Šín, Petr, Alica Hokynková, Nováková Marie, Pokorná Andrea, Rostislav Krč, and Jan Podroužek. 2022. <span>“Machine Learning-Based Pressure Ulcer Prediction in Modular Critical Care Data.”</span> <em>Diagnostics</em> 12 (4). <a href="https://doi.org/10.3390/diagnostics12040850">https://doi.org/10.3390/diagnostics12040850</a>.
+</div>
+<div id="ref-song2021basic" class="csl-entry" role="doc-biblioentry">
+Song, Jie, Yuan Gao, Pengbin Yin, Yi Li, Yang Li, Jie Zhang, Qingqing Su, Xiaojie Fu, and Hongying Pi. 2021. <span>“The Random Forest Model Has the Best Accuracy Among the Four Pressure Ulcer Prediction Models Using Machine Learning Algorithms.”</span> <em>Risk Manag Healthc Policy</em> 14 (March): 1175–87.
+</div>
+<div id="ref-walther2022basic" class="csl-entry" role="doc-biblioentry">
+Walther, Felix, Luise Heinrich, Jochen Schmitt, Maria Eberlein-Gonska, and Martin Roessler. 2022. <span>“Prediction of Inpatient Pressure Ulcers Based on Routine Healthcare Data Using Machine Learning Methodology.”</span> <em>Scientific Reports</em> 12 (1): 5044. <a href="https://doi.org/10.1038/s41598-022-09050-x">https://doi.org/10.1038/s41598-022-09050-x</a>.
+</div>
+<div id="ref-wells2013imputation" class="csl-entry" role="doc-biblioentry">
+Wells, B. J., K. M. Chagin, A. S. Nowacki, and M. W. Kattan. 2013. <span>“<span class="nocase">Strategies for handling missing data in electronic health record derived data</span>.”</span> <em>EGEMS (Wash DC)</em> 1 (3): 1035.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
